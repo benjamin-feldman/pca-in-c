@@ -249,6 +249,31 @@ Matrix *solve_linear_system(Matrix *A, Matrix *b) {
   return x;
 }
 
+Matrix *invertmat(Matrix *mat){
+  int n = mat->rows;
+
+  if (n != mat->cols){
+    printf("Error: Matrix has to be square.\n");
+    return NULL;
+  }
+
+  Matrix *result = malloc_mat(n, n);
+
+  for (int i = 0; i < n; i++){
+    // solve Ax=e_i for each i, where e_i are the basis vectors
+    // this will give us each column vector of the invert matrix
+    Matrix *e = zeros(n, 1);
+    e->data[i][0] = 1;
+    Matrix *x = solve_linear_system(mat, e);
+    for (int k = 0; k < n; k++){
+      result->data[k][i] = x->data[k][0]; 
+    }
+    free_mat_from_memory(x);
+    free_mat_from_memory(e);
+  }
+  return result;
+}
+
 int main() {
   Matrix *A, *B, *b;
 
@@ -265,6 +290,7 @@ int main() {
 
   Matrix *y = solve_lower_triangular(L, b);
   Matrix *x = solve_upper_triangular(U, y);
+  Matrix *E = invertmat(B);
 
   if (C == NULL || D == NULL)
     return 1;
@@ -272,5 +298,6 @@ int main() {
   PRINT_MATRIX(B);
   PRINT_MATRIX(C);
   PRINT_MATRIX(x);
+  PRINT_MATRIX(E);
   return 0;
 }
