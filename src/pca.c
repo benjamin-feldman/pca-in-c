@@ -224,6 +224,19 @@ LUDecomposition *LUdecompose(const Matrix *mat) {
   return result;
 }
 
+Matrix *solve_linear_system(Matrix *A, Matrix *b){
+  // solves Ax = b using LU decomposition
+  LUDecomposition *LU = LUdecompose(A);
+  
+  Matrix *L = LU->L;
+  Matrix *U = LU->U;
+
+  Matrix *y = solve_lower_triangular(L, b);
+  Matrix *x = solve_upper_triangular(U, y);
+
+  return x;
+}
+
 int main() {
   Matrix *A, *B, *b;
 
