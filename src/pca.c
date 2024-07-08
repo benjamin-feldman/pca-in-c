@@ -7,12 +7,14 @@
   printf("Matrix %s:\n", #mat);                                                \
   print_matrix(mat)
 
+// basic 2-D Matrix struct
 typedef struct {
   int rows;
   int cols;
   double **data;
 } Matrix;
 
+// ad-hoc struct used to hold a LU decomposition
 typedef struct {
   Matrix *L;
   Matrix *U;
