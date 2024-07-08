@@ -224,15 +224,27 @@ LUDecomposition *LUdecompose(const Matrix *mat) {
   return result;
 }
 
-Matrix *solve_linear_system(Matrix *A, Matrix *b){
+Matrix *solve_linear_system(Matrix *A, Matrix *b) {
   // solves Ax = b using LU decomposition
   LUDecomposition *LU = LUdecompose(A);
-  
-  Matrix *L = LU->L;
-  Matrix *U = LU->U;
+  if (LU == NULL) {
+    return NULL;
+  }
 
-  Matrix *y = solve_lower_triangular(L, b);
-  Matrix *x = solve_upper_triangular(U, y);
+  Matrix *y = solve_lower_triangular(LU->L, b);
+  if (y == NULL) {
+    free_mat_from_memory(LU->L);
+    free_mat_from_memory(LU->U);
+    free(LU);
+    return NULL;
+  }
+
+  Matrix *x = solve_upper_triangular(LU->U, y);
+
+  free_mat_from_memory(LU->L);
+  free_mat_from_memory(LU->U);
+  free(LU);
+  free_mat_from_memory(y);
 
   return x;
 }
