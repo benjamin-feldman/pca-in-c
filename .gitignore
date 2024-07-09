@@ -53,3 +53,9 @@ dkms.conf
 
 # VSCode related
 .vscode
+
+# personal notes
+notes.md
+
+# data
+mnist
