@@ -1,11 +1,10 @@
 # Principal Components Analysis in C, from scratch
 
-## Files
 - `src/linalg.c`: Various linear algebra utils and methods
-- `src/pca.c`: Computes the PCA of a .csv dataset
+- `src/pca.c`: Computes the PCA of a .csv dataset, saves it to a new .csv
 
-## Compilation
+Compile with:
 `gcc -o pca src/pca.c -lm`
 
-## Usage
+Usage:
 `./pca <n_components> <filename>`
